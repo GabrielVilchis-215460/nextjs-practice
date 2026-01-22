@@ -4,17 +4,20 @@ import LatestInvoices from "@/app/ui/dashboard/latest-invoices";
 import { lusitana } from "@/app/ui/fonts";
 import {
   //fetchRevenue,
-  fetchLatestInvoices,
+  // fetchLatestInvoices,
   fetchCardData,
 } from "@/app/lib/data"; // Función para obtener datos de ingresos
 import { Suspense } from "react";
-import { RevenueChartSkeleton } from "@/app/ui/skeletons";
+import {
+  RevenueChartSkeleton,
+  LatestInvoicesSkeleton,
+} from "@/app/ui/skeletons";
 
 // La pagina de Dashboard es un componente de servidor asincrono, esto permite hacer fetch de datos directamente mediante await.
 // Hay 3 componentes que van a recibir datos: Card, RevenueChart y LatestInvoices.
 export default async function DashboardPage() {
   //const revenue = await fetchRevenue();
-  const latestInvoices = await fetchLatestInvoices();
+  // const latestInvoices = await fetchLatestInvoices();
   const {
     numberOfInvoices,
     numberOfCustomers,
@@ -49,7 +52,10 @@ export default async function DashboardPage() {
           <RevenueChart />
         </Suspense>
         {/*<RevenueChart revenue={revenue} />*/}
-        {<LatestInvoices latestInvoices={latestInvoices} />}
+        <Suspense fallback={<LatestInvoicesSkeleton />}>
+          <LatestInvoices />
+        </Suspense>
+        {/*<LatestInvoices latestInvoices={latestInvoices} />*/}
       </div>
     </main>
   );
