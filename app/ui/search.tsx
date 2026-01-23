@@ -19,6 +19,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
     */
     console.log(`Buscando... ${term}`);
     const params = new URLSearchParams(searchParams);
+    params.set("page", "1"); // cuando se haga una nueva consulta, la pagina se resetea a la primera
     if (term) {
       params.set("query", term);
     } else {
