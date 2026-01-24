@@ -25,10 +25,18 @@ export async function createInvoice(formData: FormData) {
   });
   const amountInCents = amount * 100; // buena practica: guardar valores monetarios en centavos
   const date = new Date().toISOString().split("T")[0]; // crear una nueva fecha en formato "YYYY-MM-DD"
-  await sql`
-    INSERT INTO invoices (customer_id, amount, status, date)
-    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-  `;
+  try {
+    await sql`
+      INSERT INTO invoices (customer_id, amount, status, date)
+      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    `;
+  } catch (error) {
+    console.error(error);
+    return {
+      message: "Error de base de datos: Error al crear una factura.",
+    };
+  }
+
   revalidatePath("/dashboard/invoices");
   redirect("/dashboard/invoices");
   // Test it out:
@@ -52,11 +60,18 @@ export async function updateInvoice(id: string, formData: FormData) {
 
   const amountInCents = amount * 100;
 
-  await sql`
-    UPDATE invoices
-    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-    WHERE id = ${id}
-  `;
+  try {
+    await sql`
+      UPDATE invoices
+      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    console.error(error);
+    return {
+      message: "Error de base de datos: Error al actualizar una factura.",
+    };
+  }
 
   revalidatePath("/dashboard/invoices");
   redirect("/dashboard/invoices");
