@@ -66,9 +66,7 @@ export async function updateInvoice(id: string, formData: FormData) {
     `;
   } catch (error) {
     console.error(error);
-    return {
-      message: "Error de base de datos: Error al actualizar una factura.",
-    };
+    throw new Error("Error de base de datos: Error al actualizar una factura.");
   }
 
   revalidatePath("/dashboard/invoices");
