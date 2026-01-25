@@ -32,9 +32,7 @@ export async function createInvoice(formData: FormData) {
     `;
   } catch (error) {
     console.error(error);
-    return {
-      message: "Error de base de datos: Error al crear una factura.",
-    };
+    throw new Error("Error de base de datos: Error al crear una factura.");
   }
 
   revalidatePath("/dashboard/invoices");
