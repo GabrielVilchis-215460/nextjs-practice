@@ -6,6 +6,11 @@ import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchInvoicesPages } from "@/app/lib/data";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Invoices", // output= Invoices | Acme dashboard
+};
 
 // Los componentes Page aceptan props llamado "searchParams", asi se puede pasar los
 // parametros de la URL actual al componente tabla
